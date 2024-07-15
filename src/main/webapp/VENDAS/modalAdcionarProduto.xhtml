@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" template="/headerSemMenu.xhtml">
+    <ui:define name="conteudo">
+
+        <h:form id="formProduto">
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+            <p:panel header="Adicionar Produto">
+                <h:panelGrid columns="2">
+                    <h:outputLabel for="nome" value="Nome:" />
+                    <p:inputText id="nome" value="#{produtoBean.produto.nome}" required="true" requiredMessage="O nome é obrigatório." />
+
+                    <h:outputLabel for="descricao" value="Descrição:" />
+                    <p:inputTextarea id="descricao" value="#{produtoBean.produto.descricao}" rows="3" cols="20" />
+
+                    <h:outputLabel for="preco" value="Preço:" />
+                    <p:inputText id="preco" value="#{produtoBean.produto.preco}" required="true" requiredMessage="O preço é obrigatório." />
+
+                    <h:outputLabel for="quantidade" value="Quantidade:" />
+                    <p:inputText id="quantidade" value="#{produtoBean.produto.quantidade}" required="true" requiredMessage="A quantidade é obrigatória." />
+
+                    <h:outputLabel for="categoria" value="Categoria:" />
+                    <p:selectOneMenu id="categoria" value="#{produtoBean.categoriaId}">
+                        <f:selectItem itemLabel="Selecione uma categoria" itemValue="" />
+                        <f:selectItems value="#{produtoBean.categorias}" var="categoria" itemValue="#{categoria.id}" itemLabel="#{categoria.nome}" />
+                    </p:selectOneMenu>
+                </h:panelGrid>
+
+                <f:facet name="footer">
+                    <p:commandButton value="Salvar" action="#{produtoBean.salvar}" update=":formProduto:messages" />
+                    <p:commandButton value="Cancelar" action="#{produtoBean.cancelar}" immediate="true" />
+                </f:facet>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>
+

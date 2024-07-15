@@ -1,0 +1,143 @@
+@charset "utf-8";
+
+body {
+	font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0px;
+	font-weight: normal;
+	background-color: rgb(233, 243, 243);
+}
+
+header {
+	padding: 5px 0px;
+	margin-bottom: 20px;
+	height: 30px;
+	
+	background-color: #051932;
+	color: #fff;
+	
+	box-shadow: 0px 2px 2px #ccc;
+}
+
+header > div {
+	margin-left: 8px
+}
+
+#conteudo {
+	padding: 0px 8px
+}
+
+footer {
+	padding: 0px 8px;
+	margin-bottom: 10px
+}
+
+h1 {
+	font-size: 24px;
+	font-weight: 500;
+	padding: 0px;
+	margin: 0px
+}
+
+#login-dialog {
+	width: 290px;
+	margin: auto;
+	margin-top: 150px;
+}
+
+.grid-login {
+	background-color: #f2f2f2;
+	border-radius: 8px;
+	border: 1px solid #ccc;
+	margin-top: 8px;
+	padding: 10px
+}
+
+.rotulo {
+	width: 150px
+}
+
+.ui-panelgrid td {
+	height: 34px
+}
+
+.ajax-status {
+	position: fixed;
+	top: 55px;
+	right: 10px;
+	width: 35px;
+	height: 35px
+}
+
+.ui-selectmanycheckbox td {
+	border-width: 0px !important;
+	padding: 0px !important;
+}
+
+.ui-selectmanycheckbox td label {
+	padding-right: 10px;
+}
+
+.produto-tabela input {
+	width: 99%;
+}
+
+/* Customiza TabView - início */
+.ui-tabs .ui-tabs-panel {
+    padding: 0.5em 0.2em !important;
+}
+
+.ui-tabs {
+    padding: 0px !important;
+}
+
+.ui-tabs .ui-tabs-nav {
+    margin: -1px !important;
+}
+
+.ui-tabs.ui-tabs-top > .ui-tabs-nav {
+    padding: 0px !important;
+}
+/* Customiza TabView - fim */
+
+/* Menu sistema inicio */
+.menu-sistema {
+    border: 0px !important;
+    padding: 0px !important;
+    background: none !important;
+}
+
+.menu-sistema .ui-menu-parent > a .ui-menuitem-text, .menu-sistema > .ui-menu-list > .ui-menuitem > a > .ui-menuitem-text {
+    color: rgb(255, 255, 255) !important;
+}
+
+/* Menu sistema fim */
+
+.ui-state-disabled {
+	opacity: .80 !important;
+}
+.menu-panel {  /* Classe para personalizar o painel */
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.menu-panel .ui-panel-header {  /* Personalizar cabeçalho */
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+background-image: radial-gradient(circle at 120.71% 50%, #45c4ff 0, #0b4f89 50%, #000000 100%);
+.body {background-color: #E0F7FA;}
+
+ .left-panel {
+        width: 65%;
+        float: left;
+    }
+ .right-panel {
+        width: 30%;
+        float: right;
+  }
+ .tabela-produtos, .tabela-cesto {
+        margin-top: 20px;
+        width: 100%;
+    }

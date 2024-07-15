@@ -1,0 +1,158 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/menuPrincipal.xhtml">
+
+	<ui:define name="conteudo">
+
+		<h1>Buscar Usuario</h1>
+
+		<div class="card" />
+		<h3>
+			Filtrar usuarios por <b>Nome</b>, <b>Data de Cadastro</b> e <b>CPF</b>.
+		</h3>
+		<h:form id="form">
+
+			<div class="card">
+				<p:button value="Novo" outcome="/usuario/CadastroUsuario" />
+				<p:separator />
+				<h:form>
+					<p:messages autoUpdate="true"  closable="true" />
+					<p:dataTable var="u" editable="true"
+						value="#{pesquisaUsuarioBean.usuarios}" widgetVar="customersTable"
+						id="tabela" emptyMessage="Usuarios não encontrados"
+						filteredValue="#{dtFilterView.filteredCustomers1}"
+						globalFilterOnly="#{dtFilterView.buscar}">
+
+						<p:ajax event="rowEdit"
+							listener="#{cadastroUsuarioBean.onRowEdit}" update="" />
+						<p:ajax event="rowEditCancel"
+							listener="#{cadastroUsuarioBean.onRowCancel}" update="" />
+
+						<p:column headerText="CPF">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{u.cpf}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{u.cpf}" style="width:100%" label="Name" />
+								</f:facet>
+							</p:cellEditor>
+
+						</p:column>
+
+						<p:column headerText="Nome">
+						
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{u.nome}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{u.nome}" style="width:100%" label="Name" />
+								</f:facet>
+							</p:cellEditor>
+							
+						</p:column>
+
+						<p:column headerText="Email">
+
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{u.email}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{u.email}" style="width:100%" label="Name" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column headerText="Endereço Residencial">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{u.endereco}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{u.endereco}" style="width:100%"
+										label="Name" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+
+						<p:column headerText="Endereço Comercial">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{u.endereco2}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{u.endereco2}" style="width:100%"
+										label="Name" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column headerText="Perfil">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{u.perfil}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{u.perfil}" style="width:100%"
+										label="Name" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column headerText="Data de cadastro">
+
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{u.data_cadastro}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{u.data_cadastro}" style="width:100%"
+										label="Name" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column>
+							<p:commandButton value="Excluir"
+								oncomplete="PF('confirmacaoExcluir').show()" process="@this"
+								update="">
+								<f:setPropertyActionListener value="#{u}"
+									target="#{pesquisaUsuarioBean.usuarioSelecionado}" />
+							</p:commandButton>
+
+							<p:rowEditor editTitle="Edit Row" cancelTitle="Cancel Edit"
+								saveTitle="Salvar Row" />
+						</p:column>
+
+						<f:facet name="header">
+							<div class="flex align-items-center justify-content-between" />
+
+							<span>Lista de usuarios</span>
+
+							<p:commandButton value="buscar" icon="ui-icon-search"
+								action="#{pesquisaUsuarioBean.abrirDialogo}" update="@form"
+								styleClass="ml-2" process="@this" />
+							</f:facet>
+							</p:dataTable>
+							<p:confirmDialog hearder="Exclusão Usuario"
+								message="Tem certeza que deseja excluir o usuario? #{pesquisaUsuarioBean.usuarioSelecionado.nome}"
+								widgetVar="confirmacaoExcluir" id="confirmacaoExcluirDialog">
+				
+								<p:button value="Não"
+									onclick="PF('confirmacaoExcluir').hide();return false" />
+				
+								<p:commandButton value="Sim"
+									onclick="PF('confirmacaoExcluir').hide();return"
+									action="#{pesquisaUsuarioBean.excluir}" process="@this" update="" />
+
+			</p:confirmDialog>
+		</h:form>
+		</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

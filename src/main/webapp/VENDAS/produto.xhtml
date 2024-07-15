@@ -1,0 +1,80 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" template="/menuPrincipal.xhtml">
+    <ui:define name="conteudo">
+        <style>
+            body {
+            background: linear-gradient(to right, #155385 , #10416a ); /* Gradiente azul */
+            <h:graphicImage library="imagens" name="logo2.jpg" styleClass="dashboard-image" />
+            margin: 0; /* Remove as margens padrão */
+        }
+         .toolbar-group {
+         display: flex;
+        justify-content: space-between;
+         width: 100%;
+         }
+        .toolbar-actions {
+            display: flex;
+            gap: 5px; /* Espaçamento entre os botões */
+        }
+        </style>
+    <h:body>
+    <h:form id="formProdutos">
+        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
+        <!-- Botões -->
+    <p:toolbar>
+        <p:toolbarGroup styleClass="toolbar-group">
+         <div class="toolbar-actions">
+            <p:commandButton value="Adicionar" action="#{produtoBean.abrirDialogo2}" style="background-color: #027559; color: black;" />
+            <p:commandButton value="Editar" action="#{produtoBean.editar}" style="background-color: #FFC107; color: black;" />
+            <p:commandButton value="Apagar" action="#{produtoBean.apagar}" style="background-color: #F44336; color: black;" />
+            <p:commandButton value="Categoria" action="#{produtoBean.abrirModalCategoria}" style="background-color: #2196F3; color: black;" />
+            </div>
+         <div class="toolbar-search">
+            <p:inputText id="txtPesquisar2" value="#{produtoBean.txtProdutoPesquisar}" />
+            <p:commandButton value="Pesquisar" action="#{produtoBean.pesquisarProdutos}" update="tabelaProdutos" />
+         </div>
+        </p:toolbarGroup>
+    </p:toolbar>
+
+        <!-- Tabela de Produtos -->
+        <p:dataTable id="tabelaProdutos" var="produto" value="#{produtoBean.produtos}"
+                     rowKey="#{produto.id}" selectionMode="single" selection="#{produtoBean.produto}"
+                     paginator="true" rows="10" paginatorPosition="bottom" style="background-color: #FFC107;" >
+            <p:column headerText="CODIGO">
+                <h:outputText value="#{produto.id}" />
+            </p:column>
+            <p:column headerText="Nome">
+                <h:outputText value="#{produto.nome}" />
+            </p:column>
+            <p:column headerText="Descrição">
+                <h:outputText value="#{produto.descricao}" />
+            </p:column>
+            <p:column headerText="Preço">
+                <h:outputText value="#{produto.preco}" />
+            </p:column>
+            <p:column headerText="Quantidade">
+                <h:outputText value="#{produto.quantidade}" />
+            </p:column>
+            <p:column headerText="Categoria">
+                <h:outputText value="#{produto.categoria.nome}" />
+            </p:column>
+        </p:dataTable>
+        <!-- Diálogo de Produto -->
+        <p:dialog id="dialogProduto" header="Produto" widgetVar="dialogProduto"
+                  modal="true" resizable="false" appendToBody="true">
+            <!-- Campos do Formulário de Produto -->
+            <!-- Implementar os campos do formulário -->
+
+            <!-- Botões do Formulário -->
+            <p:commandButton value="Salvar" action="#{produtoBean.salvar}" update=":formProdutos:tabelaProdutos, :formProdutos:messages" />
+            <p:commandButton value="Cancelar" action="#{produtoBean.cancelar}"
+                             oncomplete="PF('dialogProduto').hide()" />
+        </p:dialog>
+    </h:form>
+</h:body>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,77 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" template="/headerSemMenu.xhtml">
+    <ui:define name="conteudo">
+<h:body>
+    <h:form id="formCategoria">
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
+            <p:panel header="Adicionar Categoria de Produto">
+                <h:panelGrid columns="2">
+                    <h:outputLabel for="nome" value="Nome:" />
+                    <p:inputText id="nome" value="#{categoriaBean.categoria.nome}" required="true" requiredMessage="O nome é obrigatório." />
+
+                    <h:outputLabel for="descricao" value="Descrição:" />
+                    <p:inputTextarea id="descricao" value="#{categoriaBean.categoria.descricao}" rows="3" cols="20" />
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Salvar" action="#{categoriaBean.salvar}" update=":formCategoria:messages" />
+                        <p:commandButton value="Cancelar" action="#{categoriaBean.cancelar}" immediate="true" />
+                    </f:facet>
+                </h:panelGrid>
+            </p:panel>
+    </h:form>
+        <!--<p:dataTable id="tabelaCategoria" value="#{categoriaBean.categorias}"
+                     var="categoria" selectionMode="single" rowKey="#{categoria.id}"
+                     selection="#{categoriaBean.categoria}" paginator="true" rows="10">
+
+            <p:column headerText="ID">
+                <h:outputText value="#{categoria.id}"/>
+            </p:column>
+
+            <p:column headerText="Nome">
+                <h:outputText value="#{categoria.nome}"/>
+            </p:column>
+
+            <p:column headerText="Descrição">
+                <h:outputText value="#{categoria.descricao}"/>
+            </p:column>
+
+            <p:column style="width: 100px; text-align: center;">
+                <p:commandButton icon="pi pi-pencil" title="Editar"
+                                 actionListener="#{categoriaBean.categoria}"
+                                 update=":formCategoria:dialogCategoria"
+                                 oncomplete="PF('dlgCategoria').show()">
+                </p:commandButton>
+            </p:column>
+        </p:dataTable>-->
+
+    <h:form id="formCategoriaModal">
+        <p:dialog id="dialogCategoria" header="Editar Categoria" widgetVar="dlgCategoria"
+                  modal="true" resizable="false" showEffect="fade" hideEffect="fade">
+
+            <h:panelGrid columns="2" cellpadding="5">
+                <h:outputLabel for="txtId" value="ID:"/>
+                <h:inputText id="txtId" value="#{categoriaBean.categoria.id}" disabled="true"/>
+
+                <h:outputLabel for="txtNome" value="Nome:"/>
+                <p:inputText id="txtNome" value="#{categoriaBean.categoria.nome}"/>
+
+                <h:outputLabel for="txtDescricao" value="Descrição:"/>
+                <p:inputTextarea id="txtDescricao" value="#{categoriaBean.categoria.descricao}"/>
+
+                <f:facet name="footer">
+                    <p:commandButton value="Salvar" actionListener="#{categoriaBean.salvar}"
+                                     oncomplete="PF('dlgCategoria').hide()"/>
+                    <p:commandButton value="Cancelar" onclick="PF('dlgCategoria').hide()"/>
+                </f:facet>
+            </h:panelGrid>
+        </p:dialog>
+
+        <p:messages id="msgs"/>
+    </h:form>
+</h:body>
+    </ui:define>
+</ui:composition>
