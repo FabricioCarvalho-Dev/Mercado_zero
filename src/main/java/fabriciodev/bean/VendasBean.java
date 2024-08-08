@@ -37,6 +37,8 @@ public class VendasBean implements Serializable {
     Produto produto = new Produto();
     BigDecimal valorTotal;
     ItemVenda itemVenda = new ItemVenda();
+    BigDecimal vlrPagoSum = BigDecimal.valueOf(0.0);
+    BigDecimal total = BigDecimal.ZERO;
 
     @PostConstruct
     public void init() {
@@ -56,23 +58,46 @@ public class VendasBean implements Serializable {
         // Lógica para buscar o produto pelo ID
         produto = buscaProdutoEprencheVenda();
         if (produto != null) {
-            produto.setQuantidade(quantidade);
-            cesto.add(produto);
-
-            itemVenda.setProduto(produto);
-            itemVenda.setQuantidade(quantidade);
-            calcularTotais();
+            try {
+                if (quantidade == 0) {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "ALERTA", "a Quantidade não pode ser 0."));
+                    produto = null;
+                }
+                assert produto != null;
+                produto.setQuantidade(quantidade);
+                cesto.add(produto);
+                itemVenda.setProduto(produto);
+                itemVenda.setQuantidade(quantidade);
+                vlrPagoSum = vlrPagoSum.add(valorPago);
+                calcularTotais();
+                if (valorTotal.compareTo(vlrPagoSum) > 0){
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "ALERTA", "O valor total da venda excende o valor Pago."));
+                }
+                itemVenda.setTotal(valorTotal);
+                itemVenda.setVenda(venda);
+                cestoItem.add(itemVenda);
+                limpaCamposAddProd();
+            } catch (Exception e){
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produto não adcionado."));
+                itemVenda = null;
+                cesto.remove(produto);
+            }
+        }
+    }
+    public void removerProduto() {
+        if (produto != null) {
             itemVenda.setTotal(valorTotal);
             itemVenda.setVenda(venda);
-            cestoItem.add(itemVenda);
-
-            limpaCamposAddProd();
+            cesto.remove(produto);
+            calcularTotais();
+            produto = null; // Limpa a seleção após a remoção
         }
     }
     public void limpaCamposAddProd(){
         produto = new Produto();
         produtoId = null;
         quantidade = 0;
+        valorPago = BigDecimal.valueOf(0.0);
     }
 
     public void finalizarVenda() {
@@ -83,21 +108,21 @@ public class VendasBean implements Serializable {
             venda.setDataHoraCriacao(LocalDateTime.now());
             venda.setCliente(usuarioPadrao);
             venda.setItens(cestoItem);
-            venda.setValorPago(valorPago);
+            venda.setValorPago(vlrPagoSum);
             vendasDAO.salvar(venda);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Venda realizada com sucesso."));
-            }  catch (Exception e) {
+        } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro ao realizar Venda: " + e.getMessage()));
         }
     }
 
     private void calcularTotais() {
-        BigDecimal total = BigDecimal.ZERO;
+        total = (total != null && total.compareTo(BigDecimal.ZERO) != 0) ? BigDecimal.ZERO : total;
         for (Produto produto : cesto) {
             total = total.add(produto.getPreco().multiply(new BigDecimal(produto.getQuantidade())));
         }
         venda.setValorTotal(total);
-        venda.setTroco(valorPago.subtract(total));
+        venda.setTroco(vlrPagoSum.subtract(total));
         valorTotal = total;
     }
 
@@ -170,5 +195,13 @@ public class VendasBean implements Serializable {
 
     public void setValorTotal(BigDecimal valorTotal) {
         this.valorTotal = valorTotal;
+    }
+
+    public BigDecimal getVlrPagoSum() {
+        return vlrPagoSum;
+    }
+
+    public void setVlrPagoSum(BigDecimal vlrPagoSum) {
+        this.vlrPagoSum = vlrPagoSum;
     }
 }

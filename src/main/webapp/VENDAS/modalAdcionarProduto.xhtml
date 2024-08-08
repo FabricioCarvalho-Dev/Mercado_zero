@@ -4,7 +4,12 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui" template="/headerSemMenu.xhtml">
     <ui:define name="conteudo">
-
+        <style>
+            body {
+            background: linear-gradient(to right, #155385 , #155385 ); /* Gradiente azul */
+            margin: 0; /* Remove as margens padrão */
+        }
+        </style>
         <h:form id="formProduto">
             <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
             <p:panel header="Adicionar Produto">

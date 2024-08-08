@@ -21,7 +21,7 @@
         }
         </style>
     <h:body>
-    <h:form id="formProdutos">
+    <h:form id="formProdutos" >
         <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 
         <!-- Botões -->
@@ -34,7 +34,7 @@
             <p:commandButton value="Categoria" action="#{produtoBean.abrirModalCategoria}" style="background-color: #2196F3; color: black;" />
             </div>
          <div class="toolbar-search">
-            <p:inputText id="txtPesquisar2" value="#{produtoBean.txtProdutoPesquisar}" />
+            <p:inputText id="produtoId" value="#{produtoBean.txtProdutoPesquisar}" />
             <p:commandButton value="Pesquisar" action="#{produtoBean.pesquisarProdutos}" update="tabelaProdutos" />
          </div>
         </p:toolbarGroup>
@@ -63,18 +63,40 @@
                 <h:outputText value="#{produto.categoria.nome}" />
             </p:column>
         </p:dataTable>
+
+        <p:toolbar>
+            <p:toolbarGroup styleClass="toolbar-group">
+                <div class="toolbar-search">
+                    <p:button value="voltar" icon="ui-icon-arrowreturn-1-w"
+                              outcome="/usuario/Dashboad" style="background-color: #D2691E; color: black;" />
+                </div>
+            </p:toolbarGroup>
+        </p:toolbar>
+    </h:form>
         <!-- Diálogo de Produto -->
         <p:dialog id="dialogProduto" header="Produto" widgetVar="dialogProduto"
                   modal="true" resizable="false" appendToBody="true">
             <!-- Campos do Formulário de Produto -->
             <!-- Implementar os campos do formulário -->
+            <!-- Campos do Formulário de Produto -->
+            <h:form id="formProduto2">
+                <p:panelGrid columns="2" style="width:100%">
+                    <p:outputLabel for="nome" value="Nome:" />
+                    <p:inputText id="nome" value="#{produtoBean.produtoSelecionado.nome}" required="true" />
 
-            <!-- Botões do Formulário -->
-            <p:commandButton value="Salvar" action="#{produtoBean.salvar}" update=":formProdutos:tabelaProdutos, :formProdutos:messages" />
-            <p:commandButton value="Cancelar" action="#{produtoBean.cancelar}"
-                             oncomplete="PF('dialogProduto').hide()" />
+                    <p:outputLabel for="quantidade" value="Quantidade:" />
+                    <p:inputText id="quantidade" value="#{produtoBean.produtoSelecionado.quantidade}" required="true" />
+
+                    <p:outputLabel for="preco" value="Preço:" />
+                    <p:inputText id="preco" value="#{produtoBean.produtoSelecionado.preco}" required="true" />
+                </p:panelGrid>
+
+                <!-- Botões do Formulário -->
+                <p:commandButton value="Salvar" action="#{produtoBean.salvar}" update=":formProdutos:tabelaProdutos, :formProdutos:messages" />
+                <p:commandButton value="Cancelar" action="#{produtoBean.cancelar}"
+                                 oncomplete="PF('dialogProduto').hide()" />
+            </h:form>
         </p:dialog>
-    </h:form>
 </h:body>
     </ui:define>
 </ui:composition>

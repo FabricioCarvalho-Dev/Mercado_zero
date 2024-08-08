@@ -16,6 +16,7 @@ import javax.faces.context.FacesContext;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +41,7 @@ public class ProdutoBean implements Serializable {
     CategoriaDAO categoriaDAO = new CategoriaDAO();
     Usuario usuario = new Usuario();
     UsuarioDao usuarioDAO = new UsuarioDao();
-
+    private Produto produtoSelecionado;
 
         @PostConstruct
         public void init() {
@@ -91,11 +92,19 @@ public class ProdutoBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_WARN, "Selecione um produto para apagar", null));
         }
     }
-    public void pesquisarProdutos() {
-        produtos = produtoDAO.findByName(txtProdutoPesquisar);
+    public List<Produto> pesquisarProdutos() {
+        produto = produtoDAO.buscarProdutoPeloNome(txtProdutoPesquisar);
+        if (produto != null){
+            produtos.clear();
+            produtos.add(produto);
+        }
+
+        return produtos;
     }
+
     public void cancelar() {
         produto = new Produto();
+        produtoSelecionado = null;
         limparCampos();
         closeDialog();
     }
@@ -150,22 +159,22 @@ public class ProdutoBean implements Serializable {
 
 
 
-        public void mostrarTelaProduto() {
-           // this.dashboard.getDialogProduto().pack();
-            //this.dashboard.getDialogProduto().setLocationRelativeTo(dashboard);
-            //this.dashboard.getDialogProduto().setVisible(true);
-        }
+    public void mostrarTelaProduto() {
+       // this.dashboard.getDialogProduto().pack();
+        //this.dashboard.getDialogProduto().setLocationRelativeTo(dashboard);
+        //this.dashboard.getDialogProduto().setVisible(true);
+    }
 
-        public void mostrarTelaCategoria() {
-            //this.dashboard.getDialogCategoria().pack();
-            //this.dashboard.getDialogCategoria().setLocationRelativeTo(dashboard);
-           // this.dashboard.getDialogCategoria().setVisible(true);
-            ocultaTelaProduto();
-        }
+    public void mostrarTelaCategoria() {
+        //this.dashboard.getDialogCategoria().pack();
+        //this.dashboard.getDialogCategoria().setLocationRelativeTo(dashboard);
+       // this.dashboard.getDialogCategoria().setVisible(true);
+        ocultaTelaProduto();
+    }
 
-        public void ocultaTelaProduto() {
-           // this.dashboard.getDialogProduto().setVisible(false);
-        }
+    public void ocultaTelaProduto() {
+       // this.dashboard.getDialogProduto().setVisible(false);
+    }
 
 
      // Getters e setters se necessário
@@ -242,6 +251,14 @@ public class ProdutoBean implements Serializable {
 
     public void setCategoriaId(Long categoriaId) {
         this.categoriaId = categoriaId;
+    }
+
+    public Produto getProdutoSelecionado() {
+        return produtoSelecionado;
+    }
+
+    public void setProdutoSelecionado(Produto produtoSelecionado) {
+        this.produtoSelecionado = produtoSelecionado;
     }
 }
 

@@ -26,7 +26,6 @@ public class VendasDAO {
             return "Venda salvo com sucesso";
         } catch (Exception e) {
             em.getTransaction().rollback();
-            em.getTransaction().rollback();
             return String.format("Erro ao salvar a venda: %s", e.getMessage());
         }
     }

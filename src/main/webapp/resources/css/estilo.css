@@ -130,11 +130,11 @@ background-image: radial-gradient(circle at 120.71% 50%, #45c4ff 0, #0b4f89 50%,
 .body {background-color: #E0F7FA;}
 
  .left-panel {
-        width: 65%;
+        width: 40%;
         float: left;
     }
  .right-panel {
-        width: 30%;
+        width: 50%;
         float: right;
   }
  .tabela-produtos, .tabela-cesto {

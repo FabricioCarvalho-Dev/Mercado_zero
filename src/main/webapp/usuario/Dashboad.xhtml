@@ -10,77 +10,79 @@
                 background: linear-gradient(to right, #155385 , #10416a ); /* Gradiente azul */
                 <h:graphicImage library="imagens" name="logo2.jpg" styleClass="dashboard-image" />
                 margin: 0; /* Remove as margens padrão */
-            }
+                }
                 p {
                     line-height: 1.5;
                     margin: 0;
                 }
                  .dashboard-grid {
-        width: 100%;
-        text-align: center;
-    }
-    .dashboard-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            padding: 20px;
-        }
-    .dashboard-button {
-        background: none;
-        border: none;
-        padding: 0;
-        width: 100%;
-    }
-    .dashboard-button img {
-        width: 100%;
-        height: auto;
-    }
-    .ui-panel {
-        display: inline-block;
-        margin: 10px;
-        vertical-align: top;
-    }
-             .dashboard-image {
-            width: 50%;
-            max-width: 100%;
-            height: auto;
-            margin-left: 10px;
-        }
+                    width: 100%;
+                    text-align: center;
+                }
+                 .dashboard-container2 {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    padding: 20px;
+                 }
+                 .dashboard-button {
+                    background: none;
+                    border: none;
+                    padding: 0;
+                    width: 100%;
+                 }
+                 .dashboard-button img {
+                    width: 100%;
+                    height: auto;
+                    }
+                 .ui-panel {
+                    display: inline-block;
+                    margin: 10px;
+                    vertical-align: top;
+                 }
+                 .dashboard-image2 {
+                    width: 40%;
+                    max-width: 100%;
+                    height: auto;
+                    margin-left: 10px;
+                 }
+                .dashboard-container {
+                    display: flex;
+                    justify-content: center;
+                    flex-direction: column; /* Altera a direção dos itens para coluna */
+                     align-items: center;
+                    padding: 20px;
+                }
+
+                .dashboard-image {
+                    width: 52%;
+                    max-width: 100%;
+                    height: auto;
+                    margin-top: 5px; /* Adiciona um espaço entre o contêiner e a imagem */
+                }
             </style>
         <div class="dashboard-container">
         <h:form>
-            <p:panel header="DASHBOARD" style="margin-bottom:20px;">
-                <p:panelGrid columns="3" styleClass="dashboard-grid">
-                    <p:panel header="Home">
-                        <p:button outcome="/VENDAS/home" icon="ui-icon-home" styleClass="dashboard-button">
+            <p:panel header="DASHBOARD" style="margin-bottom:20px; background-color: #B0C4DE;">
+                <p:panelGrid columns="6" styleClass="dashboard-grid" >
+                        <p:button value="Home" outcome="/VENDAS/home"  styleClass="dashboard-button">
                             <h:graphicImage library="imagens" name="home32.png" />
                         </p:button>
-                    </p:panel>
-                    <p:panel header="Clientes">
-                        <p:button outcome="/VENDAS/categoria" icon="ui-icon-contact" styleClass="dashboard-button">
+                        <p:button value="Cliente" outcome="/VENDAS/categoria"  styleClass="dashboard-button">
                             <h:graphicImage library="imagens" name="clientes.png" />
                         </p:button>
-                    </p:panel>
-                    <p:panel header="Produtos">
-                        <p:button outcome="/VENDAS/produto" icon="ui-icon-script" styleClass="dashboard-button">
-                            <h:graphicImage library="imagens" name="mais-vendidos.png"/>
+                        <p:button value="Produto" outcome="/VENDAS/produto" styleClass="dashboard-button">
+                            <h:graphicImage library="imagens" name="produtos.png"/>
                         </p:button>
-                    </p:panel>
-                    <p:panel header="Vendas">
-                        <p:button outcome="/VENDAS/vendas" icon="ui-icon-cart" styleClass="dashboard-button">
+                        <p:button value="Vendas" outcome="/VENDAS/vendas"  styleClass="dashboard-button">
                             <h:graphicImage library="imagens" name="cesta-de-compras.png" />
                         </p:button>
-                    </p:panel>
-                    <p:panel header="Usuarios">
-                        <p:button outcome="/VENDAS/produto" icon="ui-icon-person" styleClass="dashboard-button">
+                        <p:button value="Usuario" outcome="/VENDAS/produto" styleClass="dashboard-button">
                             <h:graphicImage library="imagens" name="usuario.png" />
                         </p:button>
-                    </p:panel>
-                    <p:panel header="Sair">
-                        <p:button outcome="/VENDAS/produto" icon="ui-icon-power" styleClass="dashboard-button">
+                        <p:button value="Sair" outcome="/VENDAS/produto" styleClass="dashboard-button">
                             <h:graphicImage library="imagens" name="sair.png" />
                         </p:button>
-                    </p:panel>
                 </p:panelGrid>
             </p:panel>
         </h:form>

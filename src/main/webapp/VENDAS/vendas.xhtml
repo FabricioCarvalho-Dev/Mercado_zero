@@ -6,85 +6,132 @@
     <ui:define name="conteudo">
 <h:head>
     <title>Vendas</title>
-    <h:outputStylesheet library="css" name="estilo.css" />
+    <style>
+        body {
+        background: linear-gradient(to right, #4169E1 , #4169E1 ); /* Gradiente azul */
+        <h:graphicImage library="imagens" name="logo2.jpg" styleClass="dashboard-image" />
+        margin: 0; /* Remove as margens padrão */
+    }
+         .label-large {
+            font-size: 1.2em; /* Aumenta o tamanho da fonte das labels */
+            font-weight: bold; /* Deixa o texto em negrito para melhor legibilidade */
+        }
+        .text-large {
+            font-size: 1.5em; /* Aumenta o tamanho da fonte dos textos */
+        }
+        /* Opcional: Ajustar padding e margin para melhor espaçamento */
+        h:panelGrid {
+            margin: 20px;
+        }
+        .toolbar-group {
+         display: flex;
+        justify-content: space-between;
+         width: 100%;
+         }
+        .toolbar-actions {
+            display: flex;
+            gap: 5px; /* Espaçamento entre os botões */
+        }
+    </style>
+<h:outputStylesheet library="css" name="estilo.css" />
 
 </h:head>
-    <h1>Registrar Venda</h1>
-        <h:form id="buscaPord">
-            <h:panelGroup layout="block" styleClass="left-panel" style="width: 60%;">
-            <p:toolbar>
-                <p:toolbarGroup>
-                    <h:outputLabel for="produtoId" value="Código do Produto:" />
-                    <p:inputText id="produtoId" value="#{vendasBean.produtoId}" />
-                    <p:commandButton value="Pesquisar" icon="pi pi-search" action="#{vendasBean.buscaProdutoEprencheVenda}" update="tabelaProdutos" />
-                </p:toolbarGroup>
-            </p:toolbar>
+<h1>Registrar Venda</h1>
+    <h:form id="vendaForm">
+        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+        <h:panelGroup layout="block" styleClass="left-panel" style="width: 40%;">
+        <p:toolbar>
+            <p:toolbarGroup styleClass="toolbar-group">
+                <div class="toolbar-actions">
+                <h:outputLabel for="produtoId" value="Código do Produto:" />
+                <p:inputText id="produtoId" value="#{vendasBean.produtoId}" />
+                <p:commandButton value="Pesquisar" icon="pi pi-search" action="#{vendasBean.buscaProdutoEprencheVenda}" update="tabelaProdutos" />
+                </div>
+                <div class="toolbar-search">
+                    <p:button value="voltar" icon="ui-icon-arrowreturn-1-w"
+                              outcome="/usuario/Dashboad" style="background-color: #D2691E; color: black;" />
+                </div>
+            </p:toolbarGroup>
 
-            <p:dataTable id="tabelaProdutos" var="produto" value="#{vendasBean.produto}"
-                         rowKey="#{produto.id}"
-                         paginator="false" rows="10" paginatorPosition="bottom" styleClass="tabela-produtos">
-                <p:column headerText="CÓDIGO">
-                    <h:outputText value="#{produto.id}" />
-                </p:column>
-                <p:column headerText="Nome">
-                    <h:outputText value="#{produto.nome}" />
-                </p:column>
-                <p:column headerText="Preço">
-                    <h:outputText value="#{produto.preco}" />
-                </p:column>
-                <p:column headerText="Quantidade Disponível">
-                    <h:outputText value="#{produto.quantidade}" />
-                </p:column>
-                <p:column headerText="Categoria">
-                    <h:outputText value="#{produto.categoria.nome}" />
-                </p:column>
-            </p:dataTable>
+        </p:toolbar>
 
-        </h:panelGroup>
-    </h:form>
-        <h:form id="vendaForm">
-            <h:panelGroup layout="block" styleClass="right-panel">
+        <p:dataTable id="tabelaProdutos" var="produto" value="#{vendasBean.produto}"
+                     rowKey="#{produto.id}"
+                     paginator="false" rows="10" paginatorPosition="bottom" styleClass="tabela-produtos">
+            <p:column headerText="CÓDIGO">
+                <h:outputText value="#{produto.id}" />
+            </p:column>
+            <p:column headerText="Nome">
+                <h:outputText value="#{produto.nome}" />
+            </p:column>
+            <p:column headerText="Preço">
+                <h:outputText value="#{produto.preco}" />
+            </p:column>
+            <p:column headerText="Quantidade Disponível">
+                <h:outputText value="#{produto.quantidade}" />
+            </p:column>
+            <p:column headerText="Categoria">
+                <h:outputText value="#{produto.categoria.nome}" />
+            </p:column>
+        </p:dataTable>
             <h:panelGrid columns="2" columnClasses="column-left,column-right">
-                <h:outputLabel for="quantidade" value="Quantidade:" />
-                <p:inputText id="quantidade" value="#{vendasBean.quantidade}" />
+                <h:outputLabel for="quantidade" value="Quantidade:" styleClass="label-large"/>
+                <p:inputText id="quantidade" value="#{vendasBean.quantidade}" styleClass="text-large"/>
 
-                <h:outputLabel for="valorPago" value="Valor Pago:" />
-                <p:inputText id="valorPago" value="#{vendasBean.valorPago}" />
+                <h:outputLabel for="valorPago" value="Valor Pago:" styleClass="label-large"/>
+                <p:inputText id="valorPago" value="#{vendasBean.valorPago}" styleClass="text-large"/>
 
                 <f:facet name="footer">
-                    <p:commandButton value="Adicionar Produto" action="#{vendasBean.adicionarProduto}" update="tabelaCesto, vendaForm, buscaPord" />
+                    <p:commandButton value="Adicionar Produto" action="#{vendasBean.adicionarProduto}" update="tabelaCesto, vendaForm " style="background-color: #4169E1; color: black;" />
                 </f:facet>
             </h:panelGrid>
+            <h2>Totais da Venda</h2>
+            <h:panelGrid columns="6" cellpadding="10">
+                <h:outputLabel for="totalVenda" value="Total da Venda R$:"  styleClass="label-large"/>
+                <h:outputText id="totalVenda" value="#{vendasBean.valorTotal}" styleClass="text-large"/>
 
-            <h2>Cesto de Compras</h2>
-            <p:dataTable id="tabelaCesto" value="#{vendasBean.cesto}" var="item" styleClass="tabela-cesto" style="width: 60%;">
-                <p:column headerText="ID">
-                    <h:outputText value="#{item.id}" />
-                </p:column>
-                <p:column headerText="Nome">
-                    <h:outputText value="#{item.nome}" />
-                </p:column>
-                <p:column headerText="Quantidade">
-                    <h:outputText value="#{item.quantidade}" />
-                </p:column>
-                <p:column headerText="Valor Unitário">
-                    <h:outputText value="#{item.preco}" />
-                </p:column>
-            </p:dataTable>
+                <h:outputLabel for="troco" value="Troco R$:" styleClass="label-large"/>
+                <h:outputText id="troco" value="#{vendasBean.venda.troco}" styleClass="text-large"/>
 
-            <h2>Totais</h2>
-            <h:panelGrid columns="4" cellpadding="10">
-                <h:outputLabel for="totalVenda" value="Total da Venda R$:" />
-                <h:outputText id="totalVenda" value="#{vendasBean.valorTotal}" />
-
-                <h:outputLabel for="troco" value="Troco R$:" />
-                <h:outputText id="troco" value="#{vendasBean.venda.troco}" />
+                <h:outputLabel for="valorPago" value="valor Pago R$:" styleClass="label-large"/>
+                <h:outputText id="valorPagoInit" value="#{vendasBean.vlrPagoSum}" styleClass="text-large"/>
             </h:panelGrid>
+        </h:panelGroup>
+        <h:panelGroup layout="block" styleClass="right-panel">
+        <h:panelGrid columns="2" columnClasses="column-left,column-right">
+            <f:facet name="footer">
+            </f:facet>
+        </h:panelGrid>
 
-            <p:commandButton value="Vender" action="#{vendasBean.finalizarVenda}" update="vendaForm" />
-            </h:panelGroup>
-        </h:form>
+        <h2>Cesto de Compras</h2>
+            <p:dataTable id="tabelaCesto" value="#{vendasBean.cesto}" rowKey="#{item.id}" selectionMode="single"
+                     selection="#{vendasBean.produto}" var="item" styleClass="tabela-cesto" style="width: 60%;">
+            <p:column headerText="ID">
+                <h:outputText value="#{item.id}" />
+            </p:column>
+            <p:column headerText="Nome">
+                <h:outputText value="#{item.nome}" />
+            </p:column>
+            <p:column headerText="Quantidade">
+                <h:outputText value="#{item.quantidade}" />
+            </p:column>
+            <p:column headerText="Valor Unitário">
+                <h:outputText value="#{item.preco}" />
+            </p:column>
+        </p:dataTable>
+            <p:commandButton value="Remover Produto" action="#{vendasBean.removerProduto}" update="tabelaCesto, vendaForm" style="background-color: #F44336; color: black;"/>
 
-    </ui:define>
+        <p:commandButton value="Vender" action="#{vendasBean.finalizarVenda}" update="vendaForm, messages" style="background-color: #027559; color: black;"/>
+        </h:panelGroup>
+        <f:facet name="footer">
+            <p:commandButton value="Adicionar Produto" action="#{vendasBean.adicionarProduto}" update="tabelaCesto, vendaForm " />
+        </f:facet>
+
+    </h:form>
+        <p:toolbar style="background-color: #4682B4; color: black;">
+            <p:toolbarGroup>
+            </p:toolbarGroup>
+        </p:toolbar>
+</ui:define>
 </ui:composition>
 
