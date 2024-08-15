@@ -65,10 +65,10 @@
         <h:form>
             <p:panel header="DASHBOARD" style="margin-bottom:20px; background-color: #B0C4DE;">
                 <p:panelGrid columns="6" styleClass="dashboard-grid" >
-                        <p:button value="Home" outcome="/VENDAS/home"  styleClass="dashboard-button">
-                            <h:graphicImage library="imagens" name="home32.png" />
+                        <p:button value="Home" outcome="/VENDAS/modalCalcularTaxaProduto.xhtml"  styleClass="dashboard-button">
+                            <h:graphicImage library="imagens" name="taxaPrecoP.png" />
                         </p:button>
-                        <p:button value="Cliente" outcome="/VENDAS/categoria"  styleClass="dashboard-button">
+                        <p:button value="Cliente"  styleClass="dashboard-button">
                             <h:graphicImage library="imagens" name="clientes.png" />
                         </p:button>
                         <p:button value="Produto" outcome="/VENDAS/produto" styleClass="dashboard-button">
@@ -77,15 +77,48 @@
                         <p:button value="Vendas" outcome="/VENDAS/vendas"  styleClass="dashboard-button">
                             <h:graphicImage library="imagens" name="cesta-de-compras.png" />
                         </p:button>
-                        <p:button value="Usuario" outcome="/VENDAS/produto" styleClass="dashboard-button">
+                        <p:button value="Usuario"  styleClass="dashboard-button">
                             <h:graphicImage library="imagens" name="usuario.png" />
                         </p:button>
-                        <p:button value="Sair" outcome="/VENDAS/produto" styleClass="dashboard-button">
+                        <p:button value="Sair" outcome="/index" styleClass="dashboard-button">
                             <h:graphicImage library="imagens" name="sair.png" />
                         </p:button>
                 </p:panelGrid>
             </p:panel>
-        </h:form>
+            <!-- Diálogo de Produto -->
+            <p:dialog id="dialogTaxaProduto" header="Calcula taxa" widgetVar="dialogTaxaProduto"
+                      modal="true" resizable="false" appendToBody="true">
+                    <h:form id="calcPreco">
+                        <p:panel header="Cálculo do Preço do Produto">
+                            <p:toolbar>
+                                <p:toolbarGroup>
+                                    <p:panelGrid columns="2">
+                                        <p:outputLabel for="quantidade" value="Quantidade: " styleClass="label-large"/>
+                                        <p:inputText id="quantidade" value="#{dashboardBean.quantidade}" required="true" styleClass="text-large"/>
+
+                                        <p:outputLabel for="precoTotal" value="Preço Total:" />
+                                        <p:inputText id="precoTotal" value="#{dashboardBean.precoTotal}" required="true" />
+
+                                        <p:outputLabel for="porcentagem" value="Porcentagem de Lucro (%):" />
+                                        <p:inputText id="porcentagem" value="#{dashboardBean.porcentagem}" required="true" />
+
+                                    </p:panelGrid>
+                                    <p:commandButton value="Calcular" action="#{dashboardBean.calcularPrecos}" update="calcPreco" />
+                                    <h:panelGrid id="resultado" columns="4" cellpadding="15">
+                                        <h:outputLabel value="Preço pago por Unidade:" styleClass="label-large"/>
+                                        <h:outputLabel value="#{dashboardBean.precoPorUnidade}" styleClass="text-large"/>
+
+                                        <h:outputLabel value="#{dashboardBean.precoComPorcentagemLabel}" styleClass="label-large" />
+
+                                    </h:panelGrid>
+
+                                </p:toolbarGroup>
+
+                            </p:toolbar>
+                        </p:panel>
+                    </h:form>
+                </p:dialog>
+            </h:form>
             <h:graphicImage library="imagens" name="logo2.jpg" styleClass="dashboard-image" />
         </div>
     </ui:define>

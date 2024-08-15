@@ -1,0 +1,53 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" template="/headerSemMenu.xhtml">
+    <ui:define name="conteudo">
+        <h:head>
+        <style>
+            body {
+            background: linear-gradient(to right, #155385 , #155385 ); /* Gradiente azul */
+            margin: 0; /* Remove as margens padrão */
+
+            .label-large {
+            font-size: 1.2em; /* Aumenta o tamanho da fonte das labels */
+            font-weight: bold; /* Deixa o texto em negrito para melhor legibilidade */
+            }
+            .text-large {
+            font-size: 1.5em; /* Aumenta o tamanho da fonte dos textos */
+            }
+        </style>
+        </h:head>
+        <h:form id="calcPreco">
+            <p:panel header="Cálculo do Preço do Produto">
+                <p:toolbar>
+                    <p:toolbarGroup>
+                        <p:panelGrid columns="2">
+                            <p:outputLabel for="quantidade" value="Quantidade: " styleClass="label-large"/>
+                            <p:inputText id="quantidade" value="#{dashboardBean.quantidade}" required="true" styleClass="text-large"/>
+
+                            <p:outputLabel for="precoTotal" value="Preço Total:" />
+                            <p:inputText id="precoTotal" value="#{dashboardBean.precoTotal}" required="true" />
+
+                            <p:outputLabel for="porcentagem" value="Porcentagem de Lucro (%):" />
+                            <p:inputText id="porcentagem" value="#{dashboardBean.porcentagem}" required="true" />
+
+                        </p:panelGrid>
+                        <p:commandButton value="Calcular" action="#{dashboardBean.calcularPrecos}" update="calcPreco" />
+                        <h:panelGrid id="resultado" columns="4" cellpadding="15">
+                            <h:outputLabel value="Preço por Unidade:" styleClass="label-large"/>
+                            <h:outputLabel value="#{dashboardBean.precoPorUnidade}" styleClass="text-large"/>
+
+                            <h:outputLabel value="#{dashboardBean.precoComPorcentagemLabel}" styleClass="label-large" />
+
+                        </h:panelGrid>
+                        <p:button value="voltar" icon="ui-icon-arrowreturn-1-w"
+                                  outcome="/usuario/Dashboad" style="background-color: #D2691E; color: black;" />
+                    </p:toolbarGroup>
+
+                </p:toolbar>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>
+
