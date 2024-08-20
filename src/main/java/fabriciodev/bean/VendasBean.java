@@ -16,8 +16,10 @@ import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @ManagedBean
 @ViewScoped
@@ -31,7 +33,6 @@ public class VendasBean implements Serializable {
     private Vendas venda;
     private List<Produto> cesto;
     List<ItemVenda> cestoItem = new ArrayList<>();
-    private ItemVenda itens;
     ProdutoDAO produtoDAO = new ProdutoDAO();
     private VendasDAO vendasDAO;
     Produto produto = new Produto();
@@ -39,12 +40,14 @@ public class VendasBean implements Serializable {
     ItemVenda itemVenda = new ItemVenda();
     BigDecimal vlrPagoSum = BigDecimal.valueOf(0.0);
     BigDecimal total = BigDecimal.ZERO;
+    private List<Map.Entry<Long, Integer>> qtdEIdProdt;
 
     @PostConstruct
     public void init() {
         venda = new Vendas();
         cesto = new ArrayList<>();
         vendasDAO = new VendasDAO();
+        qtdEIdProdt = new ArrayList<>();
     }
     public Produto buscaProdutoEprencheVenda(){
        produto = produtoDAO.buscarProdutoPeloId(produtoId);
@@ -55,9 +58,9 @@ public class VendasBean implements Serializable {
     }
 
     public void adicionarProduto() {
-        // Lógica para buscar o produto pelo ID
         produto = buscaProdutoEprencheVenda();
         if (produto != null) {
+            qtdEIdProdt.add(new AbstractMap.SimpleEntry<>(produto.getId(), produto.getQuantidade()));
             try {
                 if (quantidade == 0) {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "ALERTA", "a Quantidade não pode ser 0."));
@@ -99,6 +102,15 @@ public class VendasBean implements Serializable {
         quantidade = 0;
         valorPago = BigDecimal.valueOf(0.0);
     }
+    public void limpaCamposVendaFinalzd(){
+        produto = new Produto();
+        venda = new Vendas();
+        cesto.clear();
+        total = BigDecimal.ZERO;
+        valorTotal = null;
+        vlrPagoSum = null;
+
+    }
 
     public void finalizarVenda() {
         try {
@@ -110,15 +122,29 @@ public class VendasBean implements Serializable {
             venda.setItens(cestoItem);
             venda.setValorPago(vlrPagoSum);
             vendasDAO.salvar(venda);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Venda realizada com sucesso."));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Venda realizada com sucesso."));
+            for (Map.Entry<Long, Integer> parQtdId : qtdEIdProdt){
+                Long idProcurado = parQtdId.getKey();
+                Integer qtd = parQtdId.getValue();
+                for (Produto itemPdt : cesto){
+                    if (itemPdt.getId().equals(idProcurado)) {
+                        int qtdAtualizada = qtd - itemPdt.getQuantidade();
+                        produtoDAO.actualizarQuantidade(itemPdt.getId(), qtdAtualizada, 1L);
+                        break;
+                    }
+                }
+            }
+            limpaCamposVendaFinalzd();
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro ao realizar Venda: " + e.getMessage()));
         }
+
     }
 
     private void calcularTotais() {
         total = (total != null && total.compareTo(BigDecimal.ZERO) != 0) ? BigDecimal.ZERO : total;
         for (Produto produto : cesto) {
+            assert total != null;
             total = total.add(produto.getPreco().multiply(new BigDecimal(produto.getQuantidade())));
         }
         venda.setValorTotal(total);
@@ -126,11 +152,6 @@ public class VendasBean implements Serializable {
         valorTotal = total;
     }
 
-
-    private Produto buscarProdutoPorId(Long id) {
-        // Implementação para buscar o produto pelo ID
-        return new Produto(); // Placeholder, substitua com a lógica real
-    }
 
     // Getters and setters
     public Long getProdutoId() {
@@ -203,5 +224,21 @@ public class VendasBean implements Serializable {
 
     public void setVlrPagoSum(BigDecimal vlrPagoSum) {
         this.vlrPagoSum = vlrPagoSum;
+    }
+
+    public ItemVenda getItemVenda() {
+        return itemVenda;
+    }
+
+    public void setItemVenda(ItemVenda itemVenda) {
+        this.itemVenda = itemVenda;
+    }
+
+    public List<ItemVenda> getCestoItem() {
+        return cestoItem;
+    }
+
+    public void setCestoItem(List<ItemVenda> cestoItem) {
+        this.cestoItem = cestoItem;
     }
 }

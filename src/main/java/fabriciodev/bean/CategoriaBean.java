@@ -18,12 +18,10 @@ public class CategoriaBean implements Serializable {
     private CategoriaDAO categoriaDao;
     private List<Categoria> categorias;
     private Categoria categoria = new Categoria();
-   // private CategoriaTableModel categoriaTableModel;
 
     @PostConstruct
     public void init() {
         categoriaDao = new CategoriaDAO();
-        //atualizarTabelaCategoria();
     }
 
     public void salvar() {

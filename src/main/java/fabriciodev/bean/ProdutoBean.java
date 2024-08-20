@@ -6,7 +6,6 @@ import fabriciodev.dao.UsuarioDao;
 import fabriciodev.model.Categoria;
 import fabriciodev.model.Produto;
 import fabriciodev.model.Usuario;
-import org.primefaces.component.dashboard.Dashboard;
 import org.primefaces.PrimeFaces;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -16,7 +15,6 @@ import javax.faces.context.FacesContext;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,14 +37,11 @@ public class ProdutoBean implements Serializable {
     private Long categoriaId;
     private List<Categoria> categorias;
     CategoriaDAO categoriaDAO = new CategoriaDAO();
-    Usuario usuario = new Usuario();
     UsuarioDao usuarioDAO = new UsuarioDao();
     private Produto produtoSelecionado;
 
         @PostConstruct
         public void init() {
-
-            CategoriaDAO categoriaDAO = new CategoriaDAO();
             produtoDAO = new ProdutoDAO();
             produtos = produtoDAO.todosProdutos();
             produto = new Produto();
@@ -62,6 +57,7 @@ public class ProdutoBean implements Serializable {
             produtoDAO.salvar(produto);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Produto adicionado com sucesso."));
             limparCampos();
+            fecharDialogo2();
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro ao adicionar produto: " + e.getMessage()));
         }
@@ -117,6 +113,7 @@ public class ProdutoBean implements Serializable {
         this.categoria = null;
     }
     private List<Categoria> obterCategorias() {
+        CategoriaDAO categoriaDAO = new CategoriaDAO();
         // Implemente a lógica para obter as categorias do banco de dados
         // Exemplo simplificado:
         return categoriaDAO.todasCategorias(); // Método fictício para listar todas as categorias
@@ -125,17 +122,29 @@ public class ProdutoBean implements Serializable {
     private void openDialog() {
         PrimeFaces.current().executeScript("PF('dialogProduto').show();");
     }
+    public String cabecalhoProdutoLabel() {
+            if (produto == null){
+                return "";
+            }
+            else {
+                return String.format("Nome do produto  de codigo", produto.getNome(), produto.getId());
+            }
+    }
 
-    private void closeDialog() {
+        private void closeDialog() {
         PrimeFaces.current().executeScript("PF('dialogProduto').hide();");
     }
     public void abrirDialogo2() {
+        categorias = obterCategorias();
         Map<String, Object> opcoes = new HashMap<>();
         opcoes.put("modal", true);
         opcoes.put("resizable", false);
         opcoes.put("contentHeight", 470);
 
         PrimeFaces.current().dialog().openDynamic("modalAdcionarProduto", opcoes, null);
+    }
+    public void fecharDialogo2() {
+        PrimeFaces.current().dialog().closeDynamic(null);
     }
     public void abrirModalCategoria() {
         Map<String, Object> opcoes = new HashMap<>();

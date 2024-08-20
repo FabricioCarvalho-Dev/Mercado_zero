@@ -38,7 +38,8 @@
 </h:head>
 <h1>Registrar Venda</h1>
     <h:form id="vendaForm">
-        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+        <!--<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />-->
+        <p:growl id="growl" life="7000" showDetail="true" sticky="false" />
         <h:panelGroup layout="block" styleClass="left-panel" style="width: 40%;">
         <p:toolbar>
             <p:toolbarGroup styleClass="toolbar-group">
@@ -48,6 +49,8 @@
                 <p:commandButton value="Pesquisar" icon="pi pi-search" action="#{vendasBean.buscaProdutoEprencheVenda}" update="tabelaProdutos" />
                 </div>
                 <div class="toolbar-search">
+                    <p:button value="vendas" icon="ui-icon-cart"
+                              outcome="/VENDAS/vendasDetalhe" style="background-color: #027559; color: black;" />
                     <p:button value="voltar" icon="ui-icon-arrowreturn-1-w"
                               outcome="/usuario/Dashboad" style="background-color: #D2691E; color: black;" />
                 </div>
@@ -121,7 +124,7 @@
         </p:dataTable>
             <p:commandButton value="Remover Produto" action="#{vendasBean.removerProduto}" update="tabelaCesto, vendaForm" style="background-color: #F44336; color: black;"/>
 
-        <p:commandButton value="Vender" action="#{vendasBean.finalizarVenda}" update="vendaForm, messages" style="background-color: #027559; color: black;"/>
+        <p:commandButton value="Vender" action="#{vendasBean.finalizarVenda}" update="vendaForm" style="background-color: #027559; color: black;"/>
         </h:panelGroup>
         <f:facet name="footer">
             <p:commandButton value="Adicionar Produto" action="#{vendasBean.adicionarProduto}" update="tabelaCesto, vendaForm " />

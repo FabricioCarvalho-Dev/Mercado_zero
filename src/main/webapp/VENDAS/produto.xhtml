@@ -74,21 +74,24 @@
         </p:toolbar>
     </h:form>
         <!-- Diálogo de Produto -->
-        <p:dialog id="dialogProduto" header="Produto" widgetVar="dialogProduto"
+        <p:dialog id="dialogProduto" header="Produto " widgetVar="dialogProduto"
                   modal="true" resizable="false" appendToBody="true">
-            <!-- Campos do Formulário de Produto -->
-            <!-- Implementar os campos do formulário -->
-            <!-- Campos do Formulário de Produto -->
             <h:form id="formProduto2">
+                <h:outputLabel for="nome" value="Produto" styleClass="label-large"/>
+                <h:outputText id="nomeP" value="#{produtoBean.produto.nome}" styleClass="text-large"/>
                 <p:panelGrid columns="2" style="width:100%">
-                    <p:outputLabel for="nome" value="Nome:" />
-                    <p:inputText id="nome" value="#{produtoBean.produtoSelecionado.nome}" required="true" />
 
-                    <p:outputLabel for="quantidade" value="Quantidade:" />
-                    <p:inputText id="quantidade" value="#{produtoBean.produtoSelecionado.quantidade}" required="true" />
 
-                    <p:outputLabel for="preco" value="Preço:" />
-                    <p:inputText id="preco" value="#{produtoBean.produtoSelecionado.preco}" required="true" />
+                    <h:outputLabel for="nome" value="Nome:" />
+                    <h:inputText id="nome" value="#{produtoBean.produtoSelecionado.nome}" required="true" />
+
+                    <h:outputLabel for="quantidade" value="Quantidade:" />
+                    <h:inputText id="quantidade" value="#{produtoBean.produtoSelecionado.quantidade}" required="true" />
+
+                    <h:outputLabel for="preco" value="Preço:" />
+                    <h:inputText id="preco" value="#{produtoBean.produtoSelecionado.preco}" required="true" />
+
+
                 </p:panelGrid>
 
                 <!-- Botões do Formulário -->
@@ -96,6 +99,7 @@
                 <p:commandButton value="Cancelar" action="#{produtoBean.cancelar}"
                                  oncomplete="PF('dialogProduto').hide()" />
             </h:form>
+
         </p:dialog>
 </h:body>
     </ui:define>

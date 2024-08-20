@@ -1,17 +1,13 @@
 package fabriciodev.bean;
 
 import fabriciodev.dao.UsuarioDao;
-import fabriciodev.model.Produto;
 import fabriciodev.model.Usuario;
-import org.primefaces.PrimeFaces;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.application.FacesMessage;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 @ManagedBean
 @SessionScoped
@@ -28,16 +24,12 @@ public class DashboardBean implements Serializable {
 
     // Inicializa o bean
     public DashboardBean() {
-        usuarioDao = new UsuarioDao();
+        //usuarioDao = new UsuarioDao();
         precoPorUnidade = 0.0;
         precoComPorcentagem = 0.0;
         quantidade = 0;
         precoTotal = 0.0;
         porcentagem = 0.0;
-        // Inicialização adicional se necessário
-    }
-    public void abrirModal() {
-        abrirDialogoTaxa();
     }
 
     // Método para calcular o preço por unidade e o preço com porcentagem
@@ -58,22 +50,8 @@ public class DashboardBean implements Serializable {
     public String getPrecoComPorcentagemLabel() {
         return String.format("Preço com %.00f%% de Porcentagem R$: %.2f", porcentagem, precoComPorcentagem);
     }
-    public void abrirDialogoTaxa() {
-        Map<String, Object> opcoes = new HashMap<>();
-        opcoes.put("modal", true);
-        opcoes.put("resizable", false);
-        opcoes.put("contentHeight", 470);
 
-        PrimeFaces.current().dialog().openDynamic("modalCalcularTaxaProduto", opcoes, null);
-    }
-    private void openDialog() {
-        PrimeFaces.current().executeScript("PF('dialogTaxaProduto').show();");
-    }
 
-    private void closeDialog() {
-        PrimeFaces.current().executeScript("PF('dialogTaxaProduto').hide();");
-    }
-    
     // Métodos de ação
     public String goToHome() {
         return "home?faces-redirect=true";
